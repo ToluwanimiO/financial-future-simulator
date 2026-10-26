@@ -84,7 +84,7 @@ function App() {
             },
           ];
         }
-        return { ...previousInputs, incomeChanges:newExpenseChanges };
+        return { ...previousInputs, expenseChanges:newExpenseChanges };
       });
     }
     console.log(baseInputs);
