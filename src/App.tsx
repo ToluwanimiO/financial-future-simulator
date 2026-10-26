@@ -7,17 +7,25 @@ import FinancialChart from "./components/FinancialChart";
 import { SimulateSavings } from "./utils/simulateSavings";
 import type { FinancialInputs } from "./types/finance";
 import { useState,useEffect, useMemo } from "react";
+import FinancialInputsForm from "./components/FinancialInputsForm";
 function App() {
   
   type EditableSeries = "income" | "expenses";
   const [baseInputs, setBaseInputs] = useState<FinancialInputs>({
-    startingSavings: 1000,
-    savingsGoal: 150000,
-    monthlyIncome: 50000,
-    monthlyExpenses: 30000,
-    annualInterestRate: 10,
-    incomeChanges: [{ month: 3, newAmount: 65000 }],
-    expenseChanges: [{ month: 2, newAmount: 45000 }],
+    // startingSavings: 1000,
+    // savingsGoal: 150000,
+    // monthlyIncome: 50000,
+    // monthlyExpenses: 30000,
+    // annualInterestRate: 10,
+    // incomeChanges: [{ month: 3, newAmount: 65000 }],
+    // expenseChanges: [{ month: 2, newAmount: 45000 }],
+    startingSavings: 0,
+    savingsGoal: 0,
+    monthlyIncome: 0,
+    monthlyExpenses: 0,
+    annualInterestRate: 0,
+    incomeChanges: [],
+    expenseChanges: [],
   });
   useEffect(() => {
     console.log("Updated baseInputs:", baseInputs);
@@ -88,11 +96,13 @@ function App() {
       <p className="mt-3 text-slate-300">
         Plan today. Explore your financial future.
       </p>
-      <FinancialChart
+      <FinancialInputsForm onSubmit={setBaseInputs} /><br/>
+      <div className={baseInputs.savingsGoal?"":"hidden"}>{baseInputs.savingsGoal && <FinancialChart
         projections={simulationResult.projections}
         savingsGoal={baseInputs.savingsGoal}
         onAssumptionsChange={handleAssumptionsChange}
-      />
+      />}</div>
+      
     </main>
   );
 }

@@ -22,6 +22,7 @@ function FinancialChart({
 }: FinancialChartProps) {
   const chartRef = useRef<ReactECharts>(null);
   const [chart, setChart] = useState<ECharts | null>(null);
+  const monthsToGoal = projections[projections.length - 1].month
 
   const option = {
     tooltip: {
@@ -120,7 +121,7 @@ function FinancialChart({
               shape: { cx: 0, cy: 0, r: 9 },
               invisible: false,
               style: {
-                fill: series === "income" ? "#3984e8" : "#e58b45",
+                fill: series === "income" ? "#3984e8" : "#bce261",
                 stroke: "#ffffff",
                 lineWidth: 2,
               },
@@ -179,6 +180,42 @@ function FinancialChart({
           Enter your financial details to see your projection.
         </p>
       )}
+      {projections.length > 0 && (
+  <div className="mt-4 rounded-xl border border-emerald-100 bg-emerald-50 p-5">
+    <p className="text-sm font-medium text-emerald-800">
+      Time to reach your savings goal
+    </p>
+
+    {monthsToGoal !== undefined ? (
+      <>
+        <p className="mt-1 text-3xl font-bold text-emerald-900">
+          {monthsToGoal === 0
+            ? "Goal achieved!"
+            : `${monthsToGoal} ${monthsToGoal === 1 ? "month" : "months"}`}
+        </p>
+
+        <p className="mt-1 text-sm text-emerald-700">
+          {monthsToGoal === 0
+            ? "Your savings already meet your target."
+            : `You're projected to reach your ${savingsGoal.toLocaleString("en-NG", {
+                style: "currency",
+                currency: "NGN",
+                maximumFractionDigits: 0,
+              })} goal in ${monthsToGoal} ${monthsToGoal === 1 ? "month" : "months"}.`}
+        </p>
+      </>
+    ) : (
+      <>
+        <p className="mt-1 text-xl font-bold text-amber-800">
+          Goal not reached yet
+        </p>
+        <p className="mt-1 text-sm text-slate-600">
+          Your savings goal wasn't reached within the simulated period.
+        </p>
+      </>
+    )}
+  </div>
+)}
     </section>
   );
 }
