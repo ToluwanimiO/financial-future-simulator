@@ -6,7 +6,6 @@ export function SimulateSavings(inputs:FinancialInputs):SimulationResult{
     let income = monthlyIncome
     let expense = monthlyExpenses
     const MAX_MONTHS = 120; // 10 years
-
     const projections: MonthlyProjection[] = [
         {
             month: 0,

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import type { FinancialInputs } from "../types/finance";
 
@@ -66,6 +65,17 @@ function FinancialInputsForm({ onSubmit }: FinancialInputsFormProps) {
       step: "0.1",
     },
   ];
+  const formatNumber = (value: string) => {
+    const digits = value.replace(/,/g, "");
+
+    if (digits === "") return "";
+
+    const number = Number(digits);
+
+    if (!Number.isFinite(number)) return "";
+
+    return number.toLocaleString("en-NG");
+  };
 
   return (
     <form
@@ -89,12 +99,18 @@ function FinancialInputsForm({ onSubmit }: FinancialInputsFormProps) {
             </label>
 
             <input
-              type="number"
+              type="text"
               min={field.min}
               step={field.step}
               required
-              value={field.value}
-              onChange={(event) => field.setter(event.target.value)}
+              value={formatNumber(field.value)}
+              onChange={(event) => {
+                const rawValue = event.target.value.replace(/,/g, "");
+
+                if (/^\d*$/.test(rawValue)) {
+                  field.setter(rawValue);
+                }
+              }}
               className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
             />
           </div>
