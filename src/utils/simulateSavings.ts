@@ -23,9 +23,9 @@ export function SimulateSavings(inputs:FinancialInputs):SimulationResult{
         if (newExpense.length){
              expense = newExpense[0].newAmount
         }
-        const monthlyInterest = Math.pow(1 + annualInterestRate, 1/12) - 1
+        const monthlyInterest = Math.pow(1 + annualInterestRate/100, 1/12) - 1
         const interestEarned = totalSaved * monthlyInterest
-        totalSaved = totalSaved + interestEarned + monthlyIncome - monthlyExpenses
+        totalSaved = totalSaved + interestEarned + income - expense
         projections.push({
             month: month,
             income:income,
